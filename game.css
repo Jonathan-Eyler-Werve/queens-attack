@@ -1,0 +1,17 @@
+
+.board {
+  width: 800px;
+  height: 800px;
+}
+
+.square {
+  display: block;
+  float: left;
+  width: 100px;
+  height: 100px;
+  background-color: #CCCCCC;
+}
+
+.black {
+  background-color: #333333;
+}
