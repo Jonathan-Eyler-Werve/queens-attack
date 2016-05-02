@@ -1,7 +1,7 @@
 if (!window.game) { window.game = {} }
 var GAME = window.game
 
-// model board
+// initialize a board
 
 GAME.board = {
   a1: {}, a2: {}, a3: {}, a4: {}, a5: {}, a6: {}, a7: {},  a8: {},
@@ -13,6 +13,23 @@ GAME.board = {
   g1: {}, g2: {}, g3: {}, g4: {}, g5: {}, g6: {}, g7: {},  g8: {},
   h1: {}, h2: {}, h3: {}, h4: {}, h5: {}, h6: {}, h7: {},  h8: {}
 } // Is it a little silly to be so explicit? Sure. However, I'm optimizing for low cognitive burden, not less typing.
+
+// draw grid pattern
+
+GAME.board.keys = Object.keys(GAME.board);
+for (var i = 0; i < GAME.board.keys.length; i++) {
+  GAME.board[GAME.board.keys[i]].black = false;
+
+  if ( (i%16 - i%8) === 0 ) { // rows that start with black
+    if (i%2 === 0) { // black squares on even columns
+      GAME.board[GAME.board.keys[i]].black = true;
+    }
+  } else { // rows that start with white
+    if (i%2 === 1) { // black squares on odd columns
+      GAME.board[GAME.board.keys[i]].black = true;
+    }
+  };
+}
 
 
 
