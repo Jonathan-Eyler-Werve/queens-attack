@@ -17,6 +17,12 @@ console.log( GAME.board.g2.black === false );
 console.log( GAME.board.h8.black === true );
 console.log( "--- draw the board ---")
 console.log( typeof GAME.appendSquare === "function" );
+GAME.draw();
+console.log( $("#board .square").length === 64 ); // initializes correctly
+GAME.draw();
+console.log( $("#board .square").length === 64 ); // overwrites correctly
+console.log( $($("#board .square")[1]).hasClass("black") === true );
+console.log( $($("#board .square")[0]).hasClass("black") === false );
 
 console.log( "=== tests finished ===")
 

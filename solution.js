@@ -18,26 +18,26 @@ GAME.initialize = function () {
   // set up the board squares
   GAME.board.keys = Object.keys(GAME.board);
   for (var i = 0; i < GAME.board.keys.length; i++) {
-    GAME.board[GAME.board.keys[i]].black = false;
+    GAME.board[GAME.board.keys[i]].black = true;
 
     if ( (i%16 - i%8) === 0 ) { // rows that start with black
       if (i%2 === 0) { // black squares on even columns
-        GAME.board[GAME.board.keys[i]].black = true;
+        GAME.board[GAME.board.keys[i]].black = false;
       }
     } else { // rows that start with white
       if (i%2 === 1) { // black squares on odd columns
-        GAME.board[GAME.board.keys[i]].black = true;
+        GAME.board[GAME.board.keys[i]].black = false;
       }
     };
-
-    GAME.board[GAME.board.keys[i]].id = GAME.board.keys[i];
+    GAME.board[GAME.board.keys[i]].id = GAME.board.keys[i]; // the square knows its name
   }
 
 };
 
 // draw the board
-
 GAME.draw = function () {
+
+  $("#board .square").remove(); // reset the board
   for (var i = 0; i < GAME.board.keys.length; i++) {
     GAME.appendSquare(GAME.board[GAME.board.keys[i]]);
   };
