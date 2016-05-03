@@ -4,6 +4,8 @@ var GAME = window.game
 // initialize a board
 GAME.initialize = function () {
 
+  GAME.queens = [];
+
   GAME.board = [
     {id: "h1"}, {id: "h2"}, {id: "h3"}, {id: "h4"}, {id: "h5"}, {id: "h6"}, {id: "h7"},  {id: "h8"},
     {id: "g1"}, {id: "g2"}, {id: "g3"}, {id: "g4"}, {id: "g5"}, {id: "g6"}, {id: "g7"},  {id: "g8"},
@@ -13,12 +15,11 @@ GAME.initialize = function () {
     {id: "c1"}, {id: "c2"}, {id: "c3"}, {id: "c4"}, {id: "c5"}, {id: "c6"}, {id: "c7"},  {id: "c8"},
     {id: "b1"}, {id: "b2"}, {id: "b3"}, {id: "b4"}, {id: "b5"}, {id: "b6"}, {id: "b7"},  {id: "b8"},
     {id: "a1"}, {id: "a2"}, {id: "a3"}, {id: "a4"}, {id: "a5"}, {id: "a6"}, {id: "a7"},  {id: "a8"}
-  ] // Trational chess naming. Is it a little silly to be so explicit? Sure. However, I'm optimizing for low cognitive burden, not less typing.
+  ]; // Traditional chess position naming. Is it a little silly to be so explicit? Sure. However, I'm optimizing for low cognitive burden, not less typing.
 
   // set up the board squares
   for (var i = 0; i < GAME.board.length; i++) {
     GAME.board[i].black = true;
-
     if ( (i%16 - i%8) === 0 ) { // rows that start with black
       if (i%2 === 0) { // black squares on even columns
         GAME.board[i].black = false;
@@ -29,19 +30,18 @@ GAME.initialize = function () {
       }
     };
   }
-
 };
 
-// draw the board
-GAME.draw = function () {
-
+GAME.draw = function (board) {
   $("#board .square").remove(); // reset the board
-  for (var i = 0; i < GAME.board.length; i++) {
-    GAME.appendSquare(GAME.board[i]);
+
+  for (var i = 0; i < board.length; i++) {
+    GAME.appendSquare(board[i]);
   };
+
+  GAME.addEventListeners(board);
 }
 
-// draw a single grid square
 GAME.appendSquare = function (square) {
   var board = $("#board");
   if ( square.black === true ) {
@@ -51,19 +51,21 @@ GAME.appendSquare = function (square) {
   }
 }
 
+GAME.addEventListeners = function (board) {
+  $.each(board, function(index, square) {
+    $("#" + square.id).click(function() {
+      GAME.queens.push(square.id);
+      console.log("Queens:", GAME.queens);
+      console.log( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) );
+    });
+  });
+}
+
 $(function () {
   GAME.initialize();
-  GAME.draw();
+  GAME.draw(GAME.board);
+  // represent results
+
   GAME.runTests();
 });
-
-//
-
-// iterate over board while drawing squares
-
-// accept inputs
-
-// evaluate inputs
-
-// represent results
 
