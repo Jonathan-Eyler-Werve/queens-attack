@@ -79,6 +79,41 @@ GAME.checkQueens = function (first, second) {
   if ( beyonce.x === elizabeth.x ) { return true }; // row attack
   if ( beyonce.y === elizabeth.y ) { return true }; // column attack
 
+  { // send queen up and right
+    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y; // block scope in JS!
+    while ( bey.x < 9 ) {
+      bey.x += 1;
+      bey.y += 1;
+      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
+    };
+  }
+
+  { // send queen up and left
+    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y;
+    while ( bey.x > 0 ) {
+      bey.x -= 1;
+      bey.y += 1;
+      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
+    };
+  }
+
+  { // send queen down and right
+    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y;
+    while ( bey.x < 9 ) {
+      bey.x += 1;
+      bey.y -= 1;
+      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
+    };
+  }
+
+  { // send queen down and left
+    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y;
+    while ( bey.x > 0 ) {
+      bey.x -= 1;
+      bey.y -= 1;
+      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
+    };
+  }
 
   return false
 }

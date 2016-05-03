@@ -12,6 +12,10 @@
   background-color: #CCCCCC;
 }
 
-.black {
+.square--black {
   background-color: #333333;
+}
+
+.square--active {
+  background-color: #FF3333;
 }
