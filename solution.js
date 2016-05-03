@@ -1,5 +1,6 @@
-if (!window.game) { window.game = {} }
-var GAME = window.game
+"use strict";
+if (!window.game) { window.game = {} };
+var GAME = window.game;
 
 // initialize a board
 GAME.initialize = function () {
@@ -28,7 +29,7 @@ GAME.initialize = function () {
       if (i%2 === 1) { // black squares on odd columns
         GAME.board[i].black = false;
       }
-    };
+    }
   }
 };
 
@@ -37,10 +38,10 @@ GAME.draw = function (board) {
 
   for (var i = 0; i < board.length; i++) {
     GAME.appendSquare(board[i]);
-  };
+  }
 
   GAME.addEventListeners(board);
-}
+};
 
 GAME.appendSquare = function (square) {
   var board = $("#board");
@@ -49,7 +50,7 @@ GAME.appendSquare = function (square) {
   } else {
     board.append("<div class='square' id='" + square.id + "'></div>");
   }
-}
+};
 
 GAME.addEventListeners = function (board) {
   $.each(board, function(index, square) {
@@ -62,80 +63,84 @@ GAME.addEventListeners = function (board) {
       }
     });
   });
-}
+};
 
 GAME.respondToInputs = function () {
-  if ( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) === undefined ) {return};
+  if ( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) === undefined ) { return };
 
   if ( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) ) {
         $("#notes p").remove();
         $("#notes").append("<p>Queens can attack from these positions.</p>");
         $(".square--active").css("background-color", "red");
+        $("#notes").append("<a id='reset' href='#'>Reset board</a>");
   } else if (GAME.checkQueens(GAME.queens[0], GAME.queens[1]) === false) {
         $("#notes p").remove();
         $("#notes").append("<p>Queens can not attack from these positions.</p>");
-  };
+        $("#notes").append("<a id='reset' href='#'>Reset board</a>");
+  }
 
-}
+  $("#reset").click(function(event) {
+    event.preventDefault();
+    location.reload();
+  });
+};
 
 GAME.checkQueens = function (first, second) {
   if (typeof first !== "string" || typeof second !== "string") { return undefined };
   if (first === second) { return "error" };
 
-  var beyonce = {};
-  var elizabeth = {};
-  beyonce.x = Number(first[1]);
-  beyonce.y = Number(first[0]);
-  elizabeth.x = Number(second[1]);
-  elizabeth.y = Number(second[0]);
+  var whiteQueen = {};
+  var blackQueen = {};
+  whiteQueen.x = Number(first[1]);
+  whiteQueen.y = Number(first[0]);
+  blackQueen.x = Number(second[1]);
+  blackQueen.y = Number(second[0]);
 
-  if ( beyonce.x === elizabeth.x ) { return true }; // row attack
-  if ( beyonce.y === elizabeth.y ) { return true }; // column attack
+  if ( whiteQueen.x === blackQueen.x ) { return true }; // row attack
+  if ( whiteQueen.y === blackQueen.y ) { return true }; // column attack
 
   { // send queen up and right
-    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y; // block scope in JS? thanks ES6!
-    while ( bey.x < 9 ) {
-      bey.x += 1;
-      bey.y += 1;
-      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
-    };
+    let white = {}; white.x = whiteQueen.x; white.y = whiteQueen.y; // there are probably more elegant ways to manage scope but I'll take it
+    while ( white.x < 9 ) {
+      white.x += 1;
+      white.y += 1;
+      if ( JSON.stringify(white) === JSON.stringify(blackQueen) ) { return true };
+    }
   }
 
   { // send queen up and left
-    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y;
-    while ( bey.x > 0 ) {
-      bey.x -= 1;
-      bey.y += 1;
-      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
-    };
+    let white = {}; white.x = whiteQueen.x; white.y = whiteQueen.y;
+    while ( white.x > 0 ) {
+      white.x -= 1;
+      white.y += 1;
+      if ( JSON.stringify(white) === JSON.stringify(blackQueen) ) { return true };
+    }
   }
 
   { // send queen down and right
-    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y;
-    while ( bey.x < 9 ) {
-      bey.x += 1;
-      bey.y -= 1;
-      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
-    };
+    let white = {}; white.x = whiteQueen.x; white.y = whiteQueen.y;
+    while ( white.x < 9 ) {
+      white.x += 1;
+      white.y -= 1;
+      if ( JSON.stringify(white) === JSON.stringify(blackQueen) ) { return true };
+    }
   }
 
   { // send queen down and left
-    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y;
-    while ( bey.x > 0 ) {
-      bey.x -= 1;
-      bey.y -= 1;
-      if ( JSON.stringify(bey) === JSON.stringify(elizabeth) ) { return true };
-    };
+    let white = {}; white.x = whiteQueen.x; white.y = whiteQueen.y;
+    while ( white.x > 0 ) {
+      white.x -= 1;
+      white.y -= 1;
+      if ( JSON.stringify(white) === JSON.stringify(blackQueen) ) { return true };
+    }
   }
 
-  return false
-}
+  return false;
+};
 
 $(function () {
   GAME.initialize();
   GAME.draw(GAME.board);
-  // represent results
-
   GAME.runTests();
 });
 
