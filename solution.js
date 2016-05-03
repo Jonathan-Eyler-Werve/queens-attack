@@ -54,14 +54,28 @@ GAME.appendSquare = function (square) {
 GAME.addEventListeners = function (board) {
   $.each(board, function(index, square) {
     $("#" + square.id).click(function() {
-      GAME.queens.push(square.id);
-      $("#" + square.id).addClass("square--active")
-      console.log("Queens:", GAME.queens);
-      console.log( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) );
 
-
+      if ( GAME.queens.length < 2 ) {
+        GAME.queens.push(square.id);
+        $("#" + square.id).addClass("square--active");
+        GAME.respondToInputs();
+      }
     });
   });
+}
+
+GAME.respondToInputs = function () {
+  if ( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) === undefined ) {return};
+
+  if ( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) ) {
+        $("#notes p").remove();
+        $("#notes").append("<p>Queens can attack from these positions.</p>");
+        $(".square--active").css("background-color", "red");
+  } else if (GAME.checkQueens(GAME.queens[0], GAME.queens[1]) === false) {
+        $("#notes p").remove();
+        $("#notes").append("<p>Queens can not attack from these positions.</p>");
+  };
+
 }
 
 GAME.checkQueens = function (first, second) {
@@ -70,7 +84,6 @@ GAME.checkQueens = function (first, second) {
 
   var beyonce = {};
   var elizabeth = {};
-
   beyonce.x = Number(first[1]);
   beyonce.y = Number(first[0]);
   elizabeth.x = Number(second[1]);
@@ -80,7 +93,7 @@ GAME.checkQueens = function (first, second) {
   if ( beyonce.y === elizabeth.y ) { return true }; // column attack
 
   { // send queen up and right
-    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y; // block scope in JS!
+    let bey = {}; bey.x = beyonce.x; bey.y = beyonce.y; // block scope in JS? thanks ES6!
     while ( bey.x < 9 ) {
       bey.x += 1;
       bey.y += 1;
