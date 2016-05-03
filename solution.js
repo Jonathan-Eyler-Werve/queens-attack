@@ -4,18 +4,18 @@ var GAME = window.game
 // initialize a board
 GAME.initialize = function () {
 
-  GAME.queens = [];
+  GAME.queens = []; // expects a string of two digits from 1 to 8
 
   GAME.board = [
-    {id: "h1"}, {id: "h2"}, {id: "h3"}, {id: "h4"}, {id: "h5"}, {id: "h6"}, {id: "h7"},  {id: "h8"},
-    {id: "g1"}, {id: "g2"}, {id: "g3"}, {id: "g4"}, {id: "g5"}, {id: "g6"}, {id: "g7"},  {id: "g8"},
-    {id: "f1"}, {id: "f2"}, {id: "f3"}, {id: "f4"}, {id: "f5"}, {id: "f6"}, {id: "f7"},  {id: "f8"},
-    {id: "e1"}, {id: "e2"}, {id: "e3"}, {id: "e4"}, {id: "e5"}, {id: "e6"}, {id: "e7"},  {id: "e8"},
-    {id: "d1"}, {id: "d2"}, {id: "d3"}, {id: "d4"}, {id: "d5"}, {id: "d6"}, {id: "d7"},  {id: "d8"},
-    {id: "c1"}, {id: "c2"}, {id: "c3"}, {id: "c4"}, {id: "c5"}, {id: "c6"}, {id: "c7"},  {id: "c8"},
-    {id: "b1"}, {id: "b2"}, {id: "b3"}, {id: "b4"}, {id: "b5"}, {id: "b6"}, {id: "b7"},  {id: "b8"},
-    {id: "a1"}, {id: "a2"}, {id: "a3"}, {id: "a4"}, {id: "a5"}, {id: "a6"}, {id: "a7"},  {id: "a8"}
-  ]; // Traditional chess position naming. Is it a little silly to be so explicit? Sure. However, I'm optimizing for low cognitive burden, not less typing.
+    {id: "81"}, {id: "82"}, {id: "83"}, {id: "84"}, {id: "85"}, {id: "86"}, {id: "87"},  {id: "88"},
+    {id: "71"}, {id: "72"}, {id: "73"}, {id: "74"}, {id: "75"}, {id: "76"}, {id: "77"},  {id: "78"},
+    {id: "61"}, {id: "62"}, {id: "63"}, {id: "64"}, {id: "65"}, {id: "66"}, {id: "67"},  {id: "68"},
+    {id: "51"}, {id: "52"}, {id: "53"}, {id: "54"}, {id: "55"}, {id: "56"}, {id: "57"},  {id: "58"},
+    {id: "41"}, {id: "42"}, {id: "43"}, {id: "44"}, {id: "45"}, {id: "46"}, {id: "47"},  {id: "48"},
+    {id: "31"}, {id: "32"}, {id: "33"}, {id: "34"}, {id: "35"}, {id: "36"}, {id: "37"},  {id: "38"},
+    {id: "21"}, {id: "22"}, {id: "23"}, {id: "24"}, {id: "25"}, {id: "26"}, {id: "27"},  {id: "28"},
+    {id: "11"}, {id: "12"}, {id: "13"}, {id: "14"}, {id: "15"}, {id: "16"}, {id: "17"},  {id: "18"}
+  ]; // Traditional chess position naming. Is it a little silly to be so explicit? Maybe. However, I'm optimizing for low cognitive burden, not less typing.
 
   // set up the board squares
   for (var i = 0; i < GAME.board.length; i++) {
@@ -45,7 +45,7 @@ GAME.draw = function (board) {
 GAME.appendSquare = function (square) {
   var board = $("#board");
   if ( square.black === true ) {
-    board.append("<div class='square black' id='" + square.id + "'></div>");
+    board.append("<div class='square square--black' id='" + square.id + "'></div>");
   } else {
     board.append("<div class='square' id='" + square.id + "'></div>");
   }
@@ -55,10 +55,32 @@ GAME.addEventListeners = function (board) {
   $.each(board, function(index, square) {
     $("#" + square.id).click(function() {
       GAME.queens.push(square.id);
+      $("#" + square.id).addClass("square--active")
       console.log("Queens:", GAME.queens);
       console.log( GAME.checkQueens(GAME.queens[0], GAME.queens[1]) );
+
+
     });
   });
+}
+
+GAME.checkQueens = function (first, second) {
+  if (typeof first !== "string" || typeof second !== "string") { return undefined };
+  if (first === second) { return "error" };
+
+  var beyonce = {};
+  var elizabeth = {};
+
+  beyonce.x = Number(first[1]);
+  beyonce.y = Number(first[0]);
+  elizabeth.x = Number(second[1]);
+  elizabeth.y = Number(second[0]);
+
+  if ( beyonce.x === elizabeth.x ) { return true }; // row attack
+  if ( beyonce.y === elizabeth.y ) { return true }; // column attack
+
+
+  return false
 }
 
 $(function () {

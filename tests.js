@@ -28,13 +28,24 @@ console.log( $($("#board .square")[0]).hasClass("black") === false );
 
 console.log( "--- listen for input ---")
 console.log( typeof GAME.addEventListeners === "function" );
-$("#h3").click()
-console.log( GAME.queens[0] === "h3" );
-GAME.queens = []
+$("#33").click()
+console.log( GAME.queens[0] === "33" );
+GAME.queens = [];
+GAME.draw(GAME.board);
 
 console.log( "--- evaluate inputs ---")
 console.log( typeof GAME.checkQueens === "function");
-
+console.log( GAME.checkQueens("11", "11") === "error" ); // bad input
+console.log( GAME.checkQueens("11", undefined) === undefined );
+console.log( GAME.checkQueens() === undefined );
+console.log( GAME.checkQueens("11", "12") === true );
+console.log( GAME.checkQueens("22", "41") === false );
+console.log( GAME.checkQueens("11", "22") === true );
+console.log( GAME.checkQueens("11", "23") === false );
+console.log( GAME.checkQueens("11", "88") === true );
+console.log( GAME.checkQueens("88", "11") === true );
+console.log( GAME.checkQueens("81", "18") === true );
+console.log( GAME.checkQueens("18", "81") === true );
 
 console.log( "=== tests finished ===")
 
